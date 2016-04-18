@@ -917,8 +917,8 @@ MyAccAnalyzer::fillTreeJpsi(int iSign, int count) {
 		float tmp_mumi_min_dR = 531.;
 		float tmp_mupl_dR = 5310.;
 		float tmp_mumi_dR = 5310.;
-		std::cout << " " << endl;
-		std::cout << " ********* nEvents = " << nEvents << endl;
+//		std::cout << " " << endl;
+//		std::cout << " ********* nEvents = " << nEvents << endl;
 		if (collGenParticles.isValid()) {
 			for(std::vector<reco::GenParticle>::const_iterator it=collGenParticles->begin();
 			it!=collGenParticles->end();++it) {
@@ -1735,11 +1735,11 @@ MyAccAnalyzer::fillRecoMuons(int iCent)
 			
 			//KYO test
 			///cout << " *** " << endl;
-      cout << "KYO :: single muon global && tracker test" << endl;
-      cout << "muon->isTrackerMuon() = " << muon->isTrackerMuon() << endl;
-      cout << "muon->isGlobalMuon() = " << muon->isGlobalMuon() << endl;
-      cout << "selTrackerMuon(muon) = " << (int)selTrackerMuon(muon) << endl;
-      cout << "selGlobalMuon(muon) = " << (int)selGlobalMuon(muon) << endl;
+      //cout << "KYO :: single muon global && tracker test" << endl;
+      //cout << "muon->isTrackerMuon() = " << muon->isTrackerMuon() << endl;
+      //cout << "muon->isGlobalMuon() = " << muon->isGlobalMuon() << endl;
+      //cout << "selTrackerMuon(muon) = " << (int)selTrackerMuon(muon) << endl;
+      //cout << "selGlobalMuon(muon) = " << (int)selGlobalMuon(muon) << endl;
 
 			// single muon efficiency ehck // KYO (eff. with HiOnia, doesn't affect dimuon)
       muType = 0;
@@ -1750,7 +1750,7 @@ MyAccAnalyzer::fillRecoMuons(int iCent)
       //muType = 0;
 			//if (muon->isTrackerMuon() && selTrackerMuon(muon)) muType = 1;
 			//else muType=-1;
-			cout << " muType = " << muType << endl;
+			//cout << " muType = " << muType << endl;
 			
 			if (
             (muType&2)==2 
