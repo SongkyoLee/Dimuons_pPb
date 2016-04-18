@@ -915,8 +915,8 @@ MyEffAnalyzer_noAccCut_noMuID_sglTrig_genMatch::fillTreeJpsi(int iSign, int coun
 		float tmp_mumi_min_dR = 531.;
 		float tmp_mupl_dR = 5310.;
 		float tmp_mumi_dR = 5310.;
-		std::cout << " " << endl;
-		std::cout << " ********* nEvents = " << nEvents << endl;
+//		std::cout << " " << endl;
+//		std::cout << " ********* nEvents = " << nEvents << endl;
 		if (collGenParticles.isValid()) {
 			for(std::vector<reco::GenParticle>::const_iterator it=collGenParticles->begin();
 			it!=collGenParticles->end();++it) {
@@ -1374,10 +1374,12 @@ MyEffAnalyzer_noAccCut_noMuID_sglTrig_genMatch::makeCuts(int sign) {
 bool
 MyEffAnalyzer_noAccCut_noMuID_sglTrig_genMatch::checkCuts(const pat::CompositeCandidate* cand, const pat::Muon* muon1,  const pat::Muon* muon2, bool(MyEffAnalyzer_noAccCut_noMuID_sglTrig_genMatch::* callFunc1)(const pat::Muon*), bool(MyEffAnalyzer_noAccCut_noMuID_sglTrig_genMatch::* callFunc2)(const pat::Muon*)) {
   if ( (  (this->*callFunc1)(muon1) &&  (this->*callFunc2)(muon2) ) &&
-       (!_applycuts || cand->userFloat("vProb") > 0.01) )
-    return true;
+//       (!_applycuts || cand->userFloat("vProb") > 0.01) 
+       (!_applycuts || cand->userFloat("vProb") >= 0.) 
+			) 
+   { return true; }
   else
-    return false;
+   { return false; }
 }
 
 
@@ -1731,12 +1733,12 @@ MyEffAnalyzer_noAccCut_noMuID_sglTrig_genMatch::fillRecoMuons(int iCent)
       //else muType = -1;
 			
 			//KYO test
-			///cout << " *** " << endl;
-      cout << "KYO :: single muon global && tracker test" << endl;
-      cout << "muon->isTrackerMuon() = " << muon->isTrackerMuon() << endl;
-      cout << "muon->isGlobalMuon() = " << muon->isGlobalMuon() << endl;
-      cout << "selTrackerMuon(muon) = " << (int)selTrackerMuon(muon) << endl;
-      cout << "selGlobalMuon(muon) = " << (int)selGlobalMuon(muon) << endl;
+			//cout << " *** " << endl;
+      //cout << "KYO :: single muon global && tracker test" << endl;
+      //cout << "muon->isTrackerMuon() = " << muon->isTrackerMuon() << endl;
+      //cout << "muon->isGlobalMuon() = " << muon->isGlobalMuon() << endl;
+      //cout << "selTrackerMuon(muon) = " << (int)selTrackerMuon(muon) << endl;
+      //cout << "selGlobalMuon(muon) = " << (int)selGlobalMuon(muon) << endl;
 
 			// single muon efficiency ehck // KYO (eff. with HiOnia, doesn't affect dimuon)
       muType = 0;
@@ -1747,7 +1749,10 @@ MyEffAnalyzer_noAccCut_noMuID_sglTrig_genMatch::fillRecoMuons(int iCent)
       //muType = 0;
 			//if (muon->isTrackerMuon() && selTrackerMuon(muon)) muType = 1;
 			//else muType=-1;
-			cout << " muType = " << muType << endl;
+			//cout << " (muType&1) = " << (muType&1)<< endl;
+			//cout << " (muType&2) = " << (muType&2)<< endl;
+			//cout << " (muType&4) = " << (muType&4)<< endl;
+			//cout << " (muType&8) = " << (muType&8)<< endl;
 			
 			if (
             (muType&2)==2 
