@@ -12,7 +12,8 @@ options = VarParsing.VarParsing ('analysis')
 
 # setup any defaults you want
 #options.inputFiles = '/store/group/phys_heavyions/dileptons/MC2013/5TeV/Upsilon1S/MC_Upsilon1S_FEVTSIM_0.root'
-options.outputFile = 'inclBtoJPsiMuMu_pa_1st_run_SKIM_STARTHI53_V27-v1.root'
+#options.outputFile = 'inclBtoJPsiMuMu_pa_1st_run_SKIM_STARTHI53_V27-v1.root' # 2015 : 2M
+options.outputFile = 'inclBtoJPsiMuMu_pa_1st_run_SKIM_STARTHI53_V27_ext1.root' #2015 ext : 8M
 
 options.maxEvents = -1 # -1 means all events
 

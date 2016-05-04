@@ -11,10 +11,9 @@ process = cms.Process("Onia2MuMuPAT")
 options = VarParsing.VarParsing ('analysis')
 
 # setup any defaults you want
-#options.inputFiles = '/store/group/phys_heavyions/dileptons/MC2013/5TeV/Upsilon1S/MC_Upsilon1S_FEVTSIM_0.root'
-#options.outputFile = 'inclBtoJPsiMuMu_pa_2nd_run_SKIM_STARTHI53_V27-v1.root' # 2015 : 2M
-options.outputFile = 'inclBtoJPsiMuMu_pa_2nd_run_SKIM_STARTHI53_V27_ext1.root' #2015 ext : 8M
-
+options.outputFile = 'pPbData_2nd_SKIM_PromptReco-v1_GR_P_V43D_pileupRej-v4.root'
+options.inputFiles = '/store/data/Run2013A/PPMuon/RECO/PromptReco-v1/000/211/739/00000/0842C448-3A76-E211-9FF0-0025901D6272.root'
+#'/store/data/Run2013A/PPMuon/RECO/PromptReco-v1/000/211/831/00000/F40F947D-1578-E211-8D75-003048D37666.root'
 options.maxEvents = -1 # -1 means all events
 
 # get and parse the command line arguments
@@ -24,8 +23,7 @@ process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load("Configuration.StandardSequences.Reconstruction_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = 'STARTHI53_V17::All'
-process.GlobalTag.globaltag = 'STARTHI53_V27::All'
+process.GlobalTag.globaltag = 'GR_P_V43D::All'
 
 # Common offline event selection
 process.load("HeavyIonsAnalysis.Configuration.collisionEventSelection_cff")
@@ -44,7 +42,8 @@ process.hltOniaHI.HLTPaths = ["HLT_PAL1DoubleMuOpen_v*",
                               "HLT_PAL2DoubleMu3_v*",
                               "HLT_PAMu3_v*",
                               "HLT_PAMu7_v*",
-                              "HLT_PAMu12_v*"
+                              "HLT_PAMu12_v*",
+                              "HLT_PAPixelTrackMultiplicity100_L2DoubleMu3_v*"
                               ]
 process.hltOniaHI.throw = False
 process.hltOniaHI.andOr = True
@@ -52,29 +51,27 @@ process.hltOniaHI.TriggerResultsTag = cms.InputTag("TriggerResults","","HLT")
 
 
 from HiSkim.HiOnia2MuMu.onia2MuMuPAT_cff import *
-onia2MuMuPAT(process, GlobalTag=process.GlobalTag.globaltag, MC=True, HLT="HLT", Filter=False)
+onia2MuMuPAT(process, GlobalTag=process.GlobalTag.globaltag, MC=False, HLT="HLT", Filter=True)
 process.onia2MuMuPatTrkTrk.dimuonMassMin = cms.double(2.0)
 process.onia2MuMuPatTrkTrk.dimuonMassMax = cms.double(5.0)
 
 #process.onia2MuMuPatTrkTrk.addMuonlessPrimaryVertex = False
 #process.onia2MuMuPatTrkTrk.resolvePileUpAmbiguity = False
 
-## don't filter on good vertex here, do it in the skimming step on the PV closest to onia in Delta Z
-#process.PAcollisionEventSelection = cms.Sequence(process.hfCoincFilter *
-#                                                 #process.PAprimaryVertexFilter *
-#                                                 process.NoScraping
-#                                                 )
+# don't filter on good vertex here, do it in the skimming step on the PV closest to onia in Delta Z
+process.PAcollisionEventSelection = cms.Sequence(process.hfCoincFilter *
+                                                 #process.PAprimaryVertexFilter *
+                                                 process.NoScraping
+                                                 )
 
 process.patMuonSequence = cms.Sequence(
-#    process.hltOniaHI *
+    process.hltOniaHI *
     process.PAcollisionEventSelection *
     process.pileupVertexFilterCutGplus * 
     process.pACentrality_step *
-    process.genMuons *
     process.patMuonsWithTriggerSequence
     )
 
-process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 process.source.fileNames = cms.untracked.vstring(
     options.inputFiles
     )
